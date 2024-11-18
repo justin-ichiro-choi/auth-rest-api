@@ -5,7 +5,7 @@ from typing import Annotated
 from fastapi import Depends, FastAPI, HTTPException, Query
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from contextlib import asynccontextmanager
-
+import bcrypt
 
 class User(SQLModel, table=True):
     username: str = Field(index=True, primary_key=True)
@@ -46,6 +46,15 @@ async def generate_token(username, password):
 
 @app.post("/users/")
 def create_user(user: User, session: SessionDep) -> User:
+    unhashed = user.hashed_password
+
+    bytes = unhashed.encode('utf-8')
+    salt = bcrypt.gensalt()
+
+    hashed = bcrypt.hashpw(bytes, salt)
+
+    user.hashed_password = hashed
+    
     session.add(user)
     session.commit()
     session.refresh(user)
