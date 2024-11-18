@@ -40,7 +40,7 @@ async def running():
     return {"message": "Hello World!"}
 
 # Generates a JWT token and the valid amount of time this is valid for
-@app.get("/users/{username}&{password}")
+@app.post("/validate/")
 async def generate_token(username, password):
     return {"message": "Finished"}
 
@@ -54,10 +54,11 @@ def create_user(user: User, session: SessionDep) -> User:
     hashed = bcrypt.hashpw(bytes, salt)
 
     user.hashed_password = hashed
-    
+
     session.add(user)
     session.commit()
     session.refresh(user)
+
     return user
 
 @app.get("/users/")
@@ -68,3 +69,13 @@ def see_users(
 ) -> list[User]:
     users = session.exec(select(User).offset(offset).limit(limit)).all()
     return users
+
+@app.delete("/users/{username}", status_code=201)
+def delete_user(username: str, session: SessionDep):
+    user = session.get(User, username)
+
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    session.delete(user)
+    session.commit()
+    return {"deleted": "true"} 
