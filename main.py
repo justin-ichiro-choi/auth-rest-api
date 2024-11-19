@@ -19,10 +19,6 @@ class User(UserBase, table=True):
     email: str = Field(index=True)
 
 
-class TokenSchema():
-    access_token: str
-    expiration: str
-
 sqlite_file_name = "database.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"
 
@@ -71,8 +67,8 @@ async def login(session: SessionDep, user: UserBase):
         )
 
     return {
-        "token": create_access_token("Runnerup", 30),
-        "
+        "token": create_access_token("validated: true"),
+        "expiration": "600"
     }
 
 
