@@ -67,7 +67,7 @@ async def login(session: SessionDep, user: UserBase):
         )
 
     return {
-        "token": create_access_token("validated: true"),
+        "token": create_access_token(user.username),
         "expiration": "600"
     }
 

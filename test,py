@@ -1,6 +1,7 @@
 import requests
 import jwt
 import json
+from datetime import datetime
 website = 'http://127.0.0.1:8000/' # Put in the local host URL here for reference
 
 def print_data(r: requests):
@@ -32,6 +33,9 @@ token = requests.post(website + 'validate', json={
   "hashed_password": "tgt",
 })
 
+# Rundown of validate post call
+print_data(token)
+
 # Shows expiration time in seconds, in addition to JWT key
 token_data = token.json()
 
@@ -39,10 +43,10 @@ token_data = token.json()
 # Can use website to view content of token: https://jwt.io/
 # See implementation below: 
 
+decoded = jwt.decode(token_data["token"], "test", algorithms="HS256")
+decoded_jwt_time = jwt.decode(token_data["token"], "test", algorithms="HS256")["exp"]
 
-decoded_jwt = jwt.decode(token_data["token"], "test", algorithms="HS256" )
-print(decoded_jwt)
-
-
+print(decoded)
+print(datetime.fromtimestamp(decoded_jwt_time))
 
 
