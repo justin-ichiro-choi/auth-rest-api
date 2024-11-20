@@ -31,3 +31,8 @@ def create_access_token(subject: Union[str, Any], expires_delta: int = None) -> 
 
 def decode_access_token(token: str): 
     return True
+
+def create_reset_password_token(email: str):
+    data = {"exp": datetime.utcnow() + timedelta(minutes=15), "sub": email}
+    token = jwt.encode(data, JWT_SECRET_KEY, ALGORITHM)
+    return token

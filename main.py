@@ -8,7 +8,8 @@ import bcrypt
 from utils import (
     get_hashed_password,
     create_access_token,
-    verify_password
+    verify_password,
+    create_reset_password_token
 )
 
 class UserBase(SQLModel):
@@ -71,7 +72,7 @@ async def login(session: SessionDep, user: UserBase):
         "expiration": "600"
     }
 
-@app.post("/reset_password")
+@app.post("/reset-password")
 async def reset_password(session, SessionDep, User):
     return True
 

@@ -1,5 +1,8 @@
 # Communication Contract
 
+## TO DO
+Password Reset. Library used for sending reset token has issues with formatting links. Workaround is to just have a unsecured POST endpoint with a username, and then have new hashed password updated.
+
 ## Installation
 
 ```
@@ -21,7 +24,18 @@ fastapi run
 This is intended to run on localhost for most stable connections. Note that API docs can be found at -localURL-/docs. Great for testing requests. 
 
 
+
 ## Overview of service 
+
+### NOTE: Please update the database with a new user prior to requesting a new authentication token: 
+
+```python
+r = requests.post(website + 'users/', json={
+  "username": "testuser3",
+  "hashed_password": "tgt",
+  "email": "testuser3@gmail.com"
+})
+```
 
 ### A. Please utilize the format found in test.py for intructions on REQUESTING the token. 
 In this case, utilize the requests library with a json payload with password (plaintext) and username, like so. 
