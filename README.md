@@ -3,8 +3,24 @@
 ## Installation
 
 ```
+# Get repository
+git clone https://github.com/justin-ichiro-choi/auth-rest-api.git
+
+# Setting up local enviroment
+python3 -m venv myenv
+source myenv/bin/activate
+
+# Installing dependencies
+pip install -r requirements.txt
+
+# Running api
+fastapi run
 
 ```
+
+This is intended to run on localhost for most stable connections. Note that API docs can be found at -localURL-/docs. Great for testing requests. 
+
+
 ## Overview of service 
 
 ### A. Please utilize the format found in test.py for intructions on REQUESTING the token. 
@@ -39,7 +55,9 @@ The resulting output is the token data, listed as so:
 print(datetime.fromtimestamp(decoded_jwt_time))
 ```
 
-'sub' indicates the username the token is generated for and validated with the api. As a general overview, you can see if the token is valid for a user if: 
+'sub' indicates the username the token is generated for and validated with the api. 
+
+As a general overview, you can see if the token is valid for a user if: 
     - The token is valid and can be decoded with the above
     - The current time passes the time listed in the 'exp' field of the token
     - whether the 'sub' field matches the username that is matching the web resource. 
