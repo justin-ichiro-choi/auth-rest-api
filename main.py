@@ -71,8 +71,11 @@ async def login(session: SessionDep, user: UserBase):
         "expiration": "600"
     }
 
+@app.post("/reset_password")
+async def reset_password(session, SessionDep, User):
+    return True
 
-@app.post("/signup")
+@app.post("/users")
 def create_user(user: User, session: SessionDep) -> User:
 
     check = session.get(User, user.username)
@@ -90,7 +93,7 @@ def create_user(user: User, session: SessionDep) -> User:
 
     return user
 
-@app.get("/users/")
+@app.get("/users")
 def see_users(
     session: SessionDep,
     offset: int = 0,

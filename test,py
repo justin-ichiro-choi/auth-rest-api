@@ -1,0 +1,48 @@
+import requests
+import jwt
+import json
+website = 'http://127.0.0.1:8000/' # Put in the local host URL here for reference
+
+def print_data(r: requests):
+    print(r.status_code)
+    print(r.reason)
+    print(r.text)
+
+def delete_user(username):
+    r = requests.delete(website + 'users/' + username)
+
+    print_data(r)
+
+
+delete_user("testuser3")
+
+# Create Token. 
+
+# Adding a user to the authentication API
+r = requests.post(website + 'users/', json={
+  "username": "testuser3",
+  "hashed_password": "tgt",
+  "email": "testuser3@gmail.com"
+})
+
+print_data(r)
+
+token = requests.post(website + 'validate', json={
+  "username": "testuser3",
+  "hashed_password": "tgt",
+})
+
+# Shows expiration time in seconds, in addition to JWT key
+token_data = token.json()
+
+
+# Can use website to view content of token: https://jwt.io/
+# See implementation below: 
+
+
+decoded_jwt = jwt.decode(token_data["token"], "test", algorithms="HS256" )
+print(decoded_jwt)
+
+
+
+
